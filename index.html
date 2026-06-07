@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WA CRM — Manikandan Consultancy</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #0f1117;
+  --bg2: #161b27;
+  --bg3: #1e2535;
+  --bg4: #252d40;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #eef0f6;
+  --text2: #8b92a8;
+  --text3: #555e78;
+  --accent: #25d366;
+  --accent2: #1da851;
+  --blue: #4f8ef7;
+  --blue2: #1a3a6e;
+  --amber: #f7a325;
+  --amber2: #6b420a;
+  --red: #f75454;
+  --red2: #6b1a1a;
+  --teal: #25cdd4;
+  --teal2: #0d4a4d;
+  --purple: #a78bfa;
+  --purple2: #3b2a6e;
+  --green: #4ade80;
+  --green2: #14532d;
+  --sidebar-w: 220px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+
+/* Layout */
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-w); background: var(--bg2); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
+  transition: transform .3s;
+}
+.logo { padding: 22px 20px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+.logo-icon { width: 34px; height: 34px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; flex-shrink: 0; }
+.logo-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.logo-sub { font-size: 10px; color: var(--text3); font-weight: 400; font-family: 'DM Sans', sans-serif; }
+.nav-section { padding: 18px 20px 6px; font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+.nav-item {
+  display: flex; align-items: center; gap: 11px; padding: 10px 20px;
+  font-size: 13.5px; color: var(--text2); cursor: pointer; border-left: 3px solid transparent;
+  transition: all .18s; position: relative;
+}
+.nav-item:hover { color: var(--text); background: var(--bg3); }
+.nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(37,211,102,0.06); }
+.nav-item .nav-icon { width: 18px; text-align: center; font-size: 14px; }
+.nav-badge { margin-left: auto; background: var(--accent); color: #000; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 20px; }
+.sidebar-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); }
+
+/* Main */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar {
+  padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px;
+  background: var(--bg2); flex-shrink: 0;
+}
+.page-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); flex: 1; }
+.search-box { display: flex; align-items: center; gap: 8px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 12px; min-width: 180px; }
+.search-box input { background: none; border: none; outline: none; color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif; width: 100%; }
+.search-box input::placeholder { color: var(--text3); }
+.search-box i { color: var(--text3); font-size: 13px; }
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border2); background: var(--bg3); color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .18s; font-weight: 500; white-space: nowrap; }
+.btn:hover { background: var(--bg4); border-color: var(--border2); }
+.btn-accent { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); }
+.btn-sm { padding: 5px 11px; font-size: 12px; }
+.btn-wa { background: #128C7E; border-color: #128C7E; color: #fff; }
+.btn-wa:hover { background: #0a6b60; border-color: #0a6b60; }
+.hamburger { display: none; background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; padding: 4px; }
+
+/* Content */
+.content { flex: 1; overflow-y: auto; padding: 22px 24px; }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 14px; margin-bottom: 22px; }
+.stat-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px 20px; position: relative; overflow: hidden; transition: border-color .2s;
+}
+.stat-card:hover { border-color: var(--border2); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; border-radius: 2px 2px 0 0; }
+.stat-card.s-green::before { background: var(--accent); }
+.stat-card.s-blue::before { background: var(--blue); }
+.stat-card.s-amber::before { background: var(--amber); }
+.stat-card.s-teal::before { background: var(--teal); }
+.stat-card.s-red::before { background: var(--red); }
+.stat-icon { font-size: 22px; margin-bottom: 10px; }
+.stat-card.s-green .stat-icon { color: var(--accent); }
+.stat-card.s-blue .stat-icon { color: var(--blue); }
+.stat-card.s-amber .stat-icon { color: var(--amber); }
+.stat-card.s-teal .stat-icon { color: var(--teal); }
+.stat-card.s-red .stat-icon { color: var(--red); }
+.stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+.stat-lbl { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.fchip { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text2); font-size: 12px; cursor: pointer; transition: all .15s; font-family: 'DM Sans', sans-serif; }
+.fchip:hover { border-color: var(--border2); color: var(--text); }
+.fchip.active { background: rgba(37,211,102,0.12); border-color: var(--accent); color: var(--accent); }
+
+/* Table */
+.table-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
+thead { background: var(--bg3); }
+th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text3); letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; }
+td { padding: 12px 14px; border-top: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+td.strong { color: var(--text); font-weight: 500; }
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.b-new { background: rgba(79,142,247,0.15); color: var(--blue); }
+.b-contacted { background: rgba(247,163,37,0.15); color: var(--amber); }
+.b-interested { background: rgba(37,211,102,0.15); color: var(--accent); }
+.b-placed { background: rgba(37,205,212,0.15); color: var(--teal); }
+.b-rejected { background: rgba(247,84,84,0.15); color: var(--red); }
+.b-hot { background: rgba(247,84,84,0.15); color: var(--red); }
+.b-warm { background: rgba(247,163,37,0.15); color: var(--amber); }
+.b-cold { background: rgba(79,142,247,0.15); color: var(--blue); }
+.b-active { background: rgba(37,211,102,0.15); color: var(--accent); }
+.b-hold { background: rgba(247,163,37,0.15); color: var(--amber); }
+.b-closed { background: rgba(247,84,84,0.15); color: var(--red); }
+.b-high { background: rgba(247,84,84,0.15); color: var(--red); }
+.b-normal { background: rgba(37,211,102,0.12); color: var(--accent); }
+
+/* Avatar */
+.avatar { width: 32px; height: 32px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; background: var(--bg4); color: var(--text2); flex-shrink: 0; font-family: 'Syne', sans-serif; }
+
+/* WA icon btn */
+.wa-icon { background: none; border: none; color: #25d366; font-size: 18px; cursor: pointer; padding: 4px 6px; border-radius: 6px; transition: background .15s; }
+.wa-icon:hover { background: rgba(37,211,102,0.1); }
+
+/* Panel (drawer) */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; }
+.overlay.open { display: block; }
+.drawer {
+  position: fixed; top: 0; right: -420px; width: 420px; max-width: 100vw; height: 100vh;
+  background: var(--bg2); border-left: 1px solid var(--border); z-index: 101;
+  display: flex; flex-direction: column; transition: right .28s cubic-bezier(.4,0,.2,1);
+  box-shadow: var(--shadow);
+}
+.drawer.open { right: 0; }
+.drawer-head { padding: 20px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.drawer-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+.drawer-body { flex: 1; overflow-y: auto; padding: 22px; }
+.drawer-foot { padding: 16px 22px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-shrink: 0; }
+
+/* Forms */
+.form-section { font-size: 11px; font-weight: 600; color: var(--text3); letter-spacing: .8px; text-transform: uppercase; margin: 18px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.form-section:first-child { margin-top: 0; }
+.fg { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.fg label { font-size: 12px; color: var(--text2); font-weight: 500; }
+.fg input, .fg select, .fg textarea {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif;
+  padding: 9px 12px; outline: none; transition: border-color .15s; width: 100%;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--accent); }
+.fg input::placeholder, .fg textarea::placeholder { color: var(--text3); }
+.fg select option { background: var(--bg3); }
+.fg textarea { resize: vertical; min-height: 64px; line-height: 1.5; }
+.fg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.source-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(79,142,247,0.12); color: var(--blue); border: 1px solid rgba(79,142,247,0.25); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; margin-bottom: 14px; }
+
+/* Detail panel */
+.detail-hero { background: var(--bg3); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 14px; }
+.detail-avatar { width: 46px; height: 46px; border-radius: 12px; background: var(--bg4); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text2); flex-shrink: 0; }
+.detail-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+.detail-sub { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.detail-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.detail-row:last-child { border-bottom: none; }
+.detail-key { color: var(--text3); font-size: 12px; }
+.detail-val { color: var(--text); text-align: right; max-width: 60%; }
+.skills-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.skill-tag { background: var(--bg4); color: var(--text2); border-radius: 6px; padding: 3px 10px; font-size: 11px; font-weight: 500; }
+.note-block { background: var(--bg3); border-radius: var(--radius-sm); padding: 12px; font-size: 13px; color: var(--text2); line-height: 1.6; margin-top: 4px; border-left: 3px solid var(--accent); }
+
+/* Dashboard cards */
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.dash-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.dash-card-title { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
+.dash-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius-sm); margin-bottom: 4px; background: var(--bg3); transition: background .15s; }
+.dash-row:hover { background: var(--bg4); }
+.dash-row-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--text); }
+.dash-row-sub { font-size: 11px; color: var(--text3); }
+
+/* Pipeline funnel */
+.pipeline { display: flex; gap: 6px; margin-bottom: 20px; }
+.pipe-stage { flex: 1; background: var(--bg3); border-radius: var(--radius-sm); padding: 10px 12px; text-align: center; border: 1px solid var(--border); }
+.pipe-num { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+.pipe-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--bg4); border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  padding: 10px 20px; font-size: 13px; color: var(--text); z-index: 999;
+  display: flex; align-items: center; gap: 8px;
+  transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .3s;
+  opacity: 0; pointer-events: none; white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast i { color: var(--accent); }
+
+/* Empty */
+.empty { text-align: center; padding: 48px 20px; color: var(--text3); }
+.empty i { font-size: 36px; margin-bottom: 10px; display: block; }
+.empty p { font-size: 13px; }
+
+/* Edit & Delete buttons */
+.edit-btn { background: none; border: none; color: var(--text3); font-size: 13px; cursor: pointer; padding: 4px 7px; border-radius: 6px; transition: all .15s; }
+.edit-btn:hover { background: rgba(79,142,247,0.12); color: var(--blue); }
+.del-btn { background: none; border: none; color: var(--text3); font-size: 13px; cursor: pointer; padding: 4px 7px; border-radius: 6px; transition: all .15s; }
+.del-btn:hover { background: rgba(247,84,84,0.12); color: var(--red); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; z-index: 200; transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .mob-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 199; }
+  .mob-overlay.open { display: block; }
+  .hamburger { display: block; }
+  .search-box { display: none; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .dash-grid { grid-template-columns: 1fr; }
+  .pipeline { flex-wrap: wrap; }
+  .pipe-stage { min-width: calc(50% - 3px); }
+  .drawer { width: 100vw; }
+  .content { padding: 16px; }
+  .fg2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+
+/* Password screen */
+#lock-screen {
+  position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+}
+.lock-card {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 20px; padding: 40px 36px; width: 100%; max-width: 360px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6); text-align: center;
+  animation: lockIn .4s cubic-bezier(.4,0,.2,1);
+}
+@keyframes lockIn { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+.lock-icon {
+  width: 56px; height: 56px; background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.25);
+  border-radius: 16px; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px; font-size: 24px; color: var(--accent);
+}
+.lock-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.lock-sub { font-size: 13px; color: var(--text3); margin-bottom: 28px; }
+.lock-input-wrap { position: relative; margin-bottom: 14px; }
+.lock-input-wrap input {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 44px 12px 16px;
+  color: var(--text); font-size: 15px; font-family: 'DM Sans', sans-serif;
+  outline: none; letter-spacing: 2px; transition: border-color .2s;
+}
+.lock-input-wrap input:focus { border-color: var(--accent); }
+.lock-input-wrap input.shake { animation: shake .35s; border-color: var(--red); }
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
+}
+.lock-eye {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--text3); cursor: pointer; font-size: 15px; padding: 4px;
+}
+.lock-eye:hover { color: var(--text2); }
+.lock-btn {
+  width: 100%; padding: 12px; background: var(--accent); border: none; border-radius: var(--radius-sm);
+  color: #000; font-size: 14px; font-weight: 700; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: background .18s; letter-spacing: .3px;
+}
+.lock-btn:hover { background: var(--accent2); }
+.lock-error { font-size: 12px; color: var(--red); margin-top: 10px; min-height: 18px; }
+.lock-hint { font-size: 11px; color: var(--text3); margin-top: 18px; }
+.lock-attempts { font-size: 11px; color: var(--amber); margin-top: 8px; min-height: 16px; }
+</style>
+</head>
+<body>
+
+<!-- ── Lock Screen ─────────────────────────────────────────────── -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-icon"><i class="fab fa-whatsapp"></i></div>
+    <div class="lock-title">WA CRM</div>
+    <div class="lock-sub">Manikandan Consultancy · Enter your password</div>
+    <div class="lock-input-wrap">
+      <input type="password" id="lock-pwd" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()" autocomplete="current-password">
+      <button class="lock-eye" onclick="togglePwdVisibility()" id="eye-btn" title="Show/hide"><i class="fas fa-eye" id="eye-icon"></i></button>
+    </div>
+    <button class="lock-btn" onclick="checkPassword()"><i class="fas fa-unlock-alt" style="margin-right:7px"></i>Unlock</button>
+    <div class="lock-error" id="lock-error"></div>
+    <div class="lock-attempts" id="lock-attempts"></div>
+    <div class="lock-hint">Hint: your default password is <strong>mk@crm2024</strong><br>Change it anytime from the sidebar.</div>
+  </div>
+</div>
+
+<div class="mob-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
+
+<div class="app">
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-icon"><i class="fab fa-whatsapp"></i></div>
+      <div>
+        <div class="logo-text">WA CRM</div>
+        <div class="logo-sub">Manikandan Consultancy</div>
+      </div>
+    </div>
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="switchView('dashboard',this)">
+      <span class="nav-icon"><i class="fas fa-chart-pie"></i></span> Dashboard
+    </div>
+    <div class="nav-section">People</div>
+    <div class="nav-item" onclick="switchView('candidates',this)">
+      <span class="nav-icon"><i class="fas fa-users"></i></span> Candidates
+      <span class="nav-badge" id="nb-cand">0</span>
+    </div>
+    <div class="nav-item" onclick="switchView('clients',this)">
+      <span class="nav-icon"><i class="fas fa-building"></i></span> Clients
+      <span class="nav-badge" id="nb-client">0</span>
+    </div>
+    <div class="nav-item" onclick="switchView('jobs',this)">
+      <span class="nav-icon"><i class="fas fa-briefcase"></i></span> Job Orders
+      <span class="nav-badge" id="nb-jobs">0</span>
+    </div>
+    <div class="nav-section">Tools</div>
+    <div class="nav-item" onclick="switchView('followups',this)">
+      <span class="nav-icon"><i class="fas fa-bell"></i></span> Follow-ups
+      <span class="nav-badge" id="nb-fu" style="background:var(--red);color:#fff">0</span>
+    </div>
+    <div class="nav-section">Data</div>
+    <div class="nav-item" onclick="openChangePassword()">
+      <span class="nav-icon"><i class="fas fa-key"></i></span> Change password
+    </div>
+    <div class="nav-item" onclick="exportData()">
+      <span class="nav-icon"><i class="fas fa-download"></i></span> Export backup
+    </div>
+    <div class="nav-item" onclick="document.getElementById('import-file').click()">
+      <span class="nav-icon"><i class="fas fa-upload"></i></span> Import backup
+    </div>
+    <div class="nav-item" onclick="clearAllData()" style="color:var(--red)">
+      <span class="nav-icon"><i class="fas fa-trash-alt"></i></span> Clear all data
+    </div>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+    <div class="sidebar-footer">
+      <div style="margin-bottom:4px;color:var(--text2);font-weight:500">Data saved in browser</div>
+      <div style="color:var(--text3)">Export backup regularly</div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Search..." oninput="handleSearch()">
+      </div>
+      <button class="btn btn-accent" id="add-btn" onclick="openAddDrawer()">
+        <i class="fas fa-plus"></i> <span id="add-label">Add</span>
+      </button>
+    </div>
+    <div class="content" id="content-area"></div>
+  </div>
+</div>
+
+<!-- Overlay + Drawer -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-title" id="drawer-title">New Record</div>
+    <button class="btn btn-sm" onclick="closeDrawer()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+  <div class="drawer-foot" id="drawer-foot"></div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toast-msg"></span></div>
+
+<script>
+// ── Storage helpers ──────────────────────────────────────────────
+function load(key, def) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch { return def; }
+}
+function save(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+}
+
+// ── Default seed data ────────────────────────────────────────────
+const SEED_CANDIDATES = [
+  {id:1,name:"Arjun Mehta",role:"Java Developer",exp:"4",ctc:"8",ectc:"10",avail:"Immediate",phone:"9841000001",status:"Interested",skills:["Java","Spring Boot","MySQL"],note:"Strong backend dev, open to Bangalore relocation.",source:"LinkedIn",location:"Chennai"},
+  {id:2,name:"Divya Rajan",role:"React Developer",exp:"3",ctc:"7",ectc:"9",avail:"30 days",phone:"9841000002",status:"New",skills:["React","TypeScript","Node.js"],note:"Prefers remote/hybrid. Currently in Hyderabad.",source:"LinkedIn",location:"Hyderabad"},
+  {id:3,name:"Karthik S",role:"DevOps Engineer",exp:"5",ctc:"12",ectc:"15",avail:"60 days",phone:"9841000003",status:"Contacted",skills:["AWS","Docker","Kubernetes","Terraform"],note:"Notice period negotiable. Strong AWS certifications.",source:"Referral",location:"Bangalore"},
+  {id:4,name:"Priya N",role:"Business Analyst",exp:"6",ctc:"10",ectc:"12",avail:"Immediate",phone:"9841000004",status:"Placed",skills:["JIRA","Agile","SQL","Power BI"],note:"Placed at TechCorp Chennai. Good BFSI background.",source:"LinkedIn",location:"Chennai"},
+  {id:5,name:"Suresh V",role:"QA Engineer",exp:"2",ctc:"4.5",ectc:"6",avail:"15 days",phone:"9841000005",status:"Rejected",skills:["Selenium","Postman","JIRA"],note:"Client feedback: needs more automation experience.",source:"Naukri",location:"Chennai"},
+];
+const SEED_CLIENTS = [
+  {id:1,name:"TechCorp Solutions",contact:"Ravi Kumar",phone:"9840000001",status:"Hot",openings:3,city:"Chennai",email:"ravi@techcorp.com",note:"Urgent: need Java + DevOps by month-end. Good payment record."},
+  {id:2,name:"InfoSys Partners",contact:"Meena S",phone:"9840000002",status:"Warm",openings:1,city:"Bangalore",email:"meena@infosys.com",note:"Looking for BA with BFSI domain. Flexible timeline."},
+  {id:3,name:"CloudBase Pvt Ltd",contact:"Anand P",phone:"9840000003",status:"Cold",openings:2,city:"Hyderabad",email:"anand@cloudbase.in",note:"Budget constraints. Long-term relationship potential."},
+];
+const SEED_JOBS = [
+  {id:1,client:"TechCorp Solutions",role:"Java Developer",exp:"3-5",budget:"8-10",deadline:"2026-06-15",positions:2,status:"Active",skills:"Java, Spring Boot, Microservices",note:"Hybrid Chennai. 5 days/week."},
+  {id:2,client:"TechCorp Solutions",role:"DevOps Engineer",exp:"4+",budget:"11-14",deadline:"2026-06-20",positions:1,status:"Active",skills:"AWS, Docker, Kubernetes",note:"Immediate joiner preferred."},
+  {id:3,client:"InfoSys Partners",role:"Business Analyst",exp:"5+",budget:"9-12",deadline:"2026-06-30",positions:1,status:"Active",skills:"JIRA, Agile, SQL, BFSI",note:"Domain: Banking. Bangalore preferred."},
+  {id:4,client:"CloudBase Pvt Ltd",role:"React Developer",exp:"2-4",budget:"6-9",deadline:"2026-07-10",positions:2,status:"On Hold",skills:"React, TypeScript, REST APIs",note:"On hold pending budget approval."},
+];
+const SEED_FU = [
+  {id:1,type:"Candidate",name:"Karthik S",action:"Send updated JD for DevOps role",due:"Today",phone:"9841000003",priority:"High"},
+  {id:2,type:"Client",name:"TechCorp Solutions",action:"Follow up on interview shortlist",due:"Tomorrow",phone:"9840000001",priority:"High"},
+  {id:3,type:"Candidate",name:"Divya Rajan",action:"Check notice period update",due:"2026-06-04",phone:"9841000002",priority:"Normal"},
+  {id:4,type:"Client",name:"InfoSys Partners",action:"Send BA candidate profiles",due:"2026-06-05",phone:"9840000002",priority:"Normal"},
+];
+
+let candidates = load('wcrm_candidates', SEED_CANDIDATES);
+let clients    = load('wcrm_clients', SEED_CLIENTS);
+let jobs       = load('wcrm_jobs', SEED_JOBS);
+let followups  = load('wcrm_followups', SEED_FU);
+let nextId = { c: Math.max(0,...candidates.map(x=>x.id))+1, cl: Math.max(0,...clients.map(x=>x.id))+1, j: Math.max(0,...jobs.map(x=>x.id))+1, f: Math.max(0,...followups.map(x=>x.id))+1 };
+
+let currentView = 'dashboard';
+let searchTerm = '';
+
+// ── Nav badges ───────────────────────────────────────────────────
+function updateBadges() {
+  document.getElementById('nb-cand').textContent = candidates.length;
+  document.getElementById('nb-client').textContent = clients.length;
+  document.getElementById('nb-jobs').textContent = jobs.length;
+  const todayFu = followups.filter(f=>f.due==='Today').length;
+  document.getElementById('nb-fu').textContent = todayFu;
+  document.getElementById('nb-fu').style.display = todayFu ? 'inline-block' : 'none';
+}
+
+// ── Routing ──────────────────────────────────────────────────────
+function switchView(v, el) {
+  currentView = v; searchTerm = '';
+  document.getElementById('search-input').value = '';
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const titles = {dashboard:'Dashboard',candidates:'Candidates',clients:'Clients',jobs:'Job Orders',followups:'Follow-ups'};
+  const labels = {dashboard:'',candidates:'Add candidate',clients:'Add client',jobs:'Add job',followups:'Add follow-up'};
+  document.getElementById('page-title').textContent = titles[v];
+  document.getElementById('add-label').textContent = labels[v] || 'Add';
+  document.getElementById('add-btn').style.display = v==='dashboard' ? 'none' : 'inline-flex';
+  closeSidebar();
+  render();
+}
+
+function render() {
+  updateBadges();
+  const el = document.getElementById('content-area');
+  if (currentView==='dashboard') el.innerHTML = renderDashboard();
+  else if (currentView==='candidates') el.innerHTML = renderCandidates();
+  else if (currentView==='clients') el.innerHTML = renderClients();
+  else if (currentView==='jobs') el.innerHTML = renderJobs();
+  else if (currentView==='followups') el.innerHTML = renderFollowups();
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
+function waLink(phone, name) {
+  return 'https://wa.me/91'+phone+'?text='+encodeURIComponent('Hi '+name+', this is Manikandan calling from the consultancy.');
+}
+function fmtDate(d) {
+  if (!d || d==='Today'||d==='Tomorrow') return d;
+  try { return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short'}); } catch { return d; }
+}
+function initials(n) { return n.split(' ').map(x=>x[0]||'').join('').toUpperCase().slice(0,2); }
+function badgeCand(s) { const m={New:'b-new',Contacted:'b-contacted',Interested:'b-interested',Placed:'b-placed',Rejected:'b-rejected'}; return m[s]||'b-new'; }
+function badgeClient(s) { return {Hot:'b-hot',Warm:'b-warm',Cold:'b-cold'}[s]||'b-cold'; }
+function badgeJob(s) { return {Active:'b-active','On Hold':'b-hold',Closed:'b-closed'}[s]||'b-hold'; }
+function srcIcon(s) { return {LinkedIn:'fab fa-linkedin',Naukri:'fas fa-file-alt',Referral:'fas fa-user-friends',WhatsApp:'fab fa-whatsapp',Other:'fas fa-ellipsis-h'}[s]||'fas fa-ellipsis-h'; }
+
+function showToast(msg) {
+  document.getElementById('toast-msg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ── Sidebar mobile ───────────────────────────────────────────────
+function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('mob-overlay').classList.add('open'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mob-overlay').classList.remove('open'); }
+
+// ── Drawer ───────────────────────────────────────────────────────
+function openDrawer(title, bodyHtml, footHtml) {
+  document.getElementById('drawer-title').textContent = title;
+  document.getElementById('drawer-body').innerHTML = bodyHtml;
+  document.getElementById('drawer-foot').innerHTML = footHtml;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+function closeDrawer() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+function openAddDrawer() {
+  if (currentView==='candidates') openAddCandidate();
+  else if (currentView==='clients') openAddClient();
+  else if (currentView==='jobs') openAddJob();
+  else if (currentView==='followups') openAddFollowup();
+}
+
+// ── Search ───────────────────────────────────────────────────────
+function handleSearch() {
+  searchTerm = document.getElementById('search-input').value.toLowerCase();
+  render();
+}
+
+// ── Dashboard ────────────────────────────────────────────────────
+function renderDashboard() {
+  const placed = candidates.filter(c=>c.status==='Placed').length;
+  const active = candidates.filter(c=>c.status!=='Placed'&&c.status!=='Rejected').length;
+  const hotC = clients.filter(c=>c.status==='Hot').length;
+  const todayFu = followups.filter(f=>f.due==='Today');
+  const activeJobs = jobs.filter(j=>j.status==='Active').length;
+  const pipeStages = ['New','Contacted','Interested','Placed'];
+
+  return `
+  <div class="stats-grid">
+    <div class="stat-card s-green"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-num">${candidates.length}</div><div class="stat-lbl">Total Candidates</div></div>
+    <div class="stat-card s-blue"><div class="stat-icon"><i class="fas fa-briefcase"></i></div><div class="stat-num">${active}</div><div class="stat-lbl">Active Pipeline</div></div>
+    <div class="stat-card s-teal"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-num">${placed}</div><div class="stat-lbl">Placed</div></div>
+    <div class="stat-card s-amber"><div class="stat-icon"><i class="fas fa-building"></i></div><div class="stat-num">${hotC}</div><div class="stat-lbl">Hot Clients</div></div>
+    <div class="stat-card s-red"><div class="stat-icon"><i class="fas fa-bell"></i></div><div class="stat-num">${todayFu.length}</div><div class="stat-lbl">Follow-ups Today</div></div>
+    <div class="stat-card s-blue"><div class="stat-icon"><i class="fas fa-clipboard-list"></i></div><div class="stat-num">${activeJobs}</div><div class="stat-lbl">Active Jobs</div></div>
+  </div>
+
+  <div style="margin-bottom:10px;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px">Candidate pipeline</div>
+  <div class="pipeline">
+    ${pipeStages.map(s=>`<div class="pipe-stage">
+      <div class="pipe-num" style="color:${s==='Placed'?'var(--teal)':'var(--text)'}">${candidates.filter(c=>c.status===s).length}</div>
+      <div class="pipe-lbl">${s}</div>
+    </div>`).join('')}
+  </div>
+
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-card-title"><i class="fas fa-bell" style="color:var(--red);margin-right:5px"></i>Today's follow-ups</div>
+      ${todayFu.length ? todayFu.map(f=>`
+        <div class="dash-row">
+          <div style="flex:1">
+            <div class="dash-row-name">${f.name}</div>
+            <div class="dash-row-sub">${f.action}</div>
+          </div>
+          <a href="${waLink(f.phone,f.name)}" target="_blank"><button class="wa-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></button></a>
+        </div>`).join('') : '<div class="empty" style="padding:20px"><i class="fas fa-check-circle" style="font-size:24px"></i><p>All clear today!</p></div>'}
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-title"><i class="fas fa-fire" style="color:var(--red);margin-right:5px"></i>Hot clients</div>
+      ${clients.filter(c=>c.status==='Hot').length ? clients.filter(c=>c.status==='Hot').map(c=>`
+        <div class="dash-row">
+          <div style="flex:1">
+            <div class="dash-row-name">${c.name}</div>
+            <div class="dash-row-sub">${c.openings} opening${c.openings>1?'s':''} · ${c.city}</div>
+          </div>
+          <a href="${waLink(c.phone,c.contact)}" target="_blank"><button class="wa-icon"><i class="fab fa-whatsapp"></i></button></a>
+        </div>`).join('') : '<div class="empty" style="padding:20px"><i class="fas fa-building"></i><p>No hot clients yet</p></div>'}
+    </div>
+  </div>`;
+}
+
+// ── Candidates ───────────────────────────────────────────────────
+let candFilter = 'All';
+function renderCandidates() {
+  const statuses = ['All','New','Contacted','Interested','Placed','Rejected'];
+  let list = candidates;
+  if (candFilter!=='All') list = list.filter(c=>c.status===candFilter);
+  if (searchTerm) list = list.filter(c=>(c.name+c.role+c.location+c.skills.join()).toLowerCase().includes(searchTerm));
+  return `
+  <div class="filter-bar">
+    ${statuses.map(s=>`<button class="fchip${candFilter===s?' active':''}" onclick="setCandFilter('${s}')">${s} <span style="opacity:.55;font-size:10px">${s==='All'?candidates.length:candidates.filter(c=>c.status===s).length}</span></button>`).join('')}
+  </div>
+  <div class="table-card"><div class="table-wrap"><table>
+    <thead><tr><th></th><th>Name</th><th>Role</th><th>Exp</th><th>CTC→Expected</th><th>Notice</th><th>Source</th><th>Status</th><th>WhatsApp</th><th></th></tr></thead>
+    <tbody>${list.length ? list.map(c=>`
+      <tr style="cursor:pointer" onclick="openCandDetail(${c.id})">
+        <td><div class="avatar">${initials(c.name)}</div></td>
+        <td class="strong">${c.name}<div style="font-size:11px;color:var(--text3)">${c.location||''}</div></td>
+        <td>${c.role}</td>
+        <td>${c.exp} yrs</td>
+        <td>${c.ctc||'—'} → ${c.ectc||'?'} LPA</td>
+        <td>${c.avail}</td>
+        <td><i class="${srcIcon(c.source)}" style="font-size:12px;margin-right:4px"></i>${c.source}</td>
+        <td><span class="badge ${badgeCand(c.status)}">${c.status}</span></td>
+        <td onclick="event.stopPropagation()"><a href="${waLink(c.phone,c.name)}" target="_blank"><button class="wa-icon"><i class="fab fa-whatsapp"></i></button></a></td>
+        <td onclick="event.stopPropagation()" style="white-space:nowrap">
+          <button class="edit-btn" onclick="editCandidate(${c.id})" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+          <button class="del-btn" onclick="deleteCandidate(${c.id})" title="Delete"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="10"><div class="empty"><i class="fas fa-users"></i><p>No candidates found</p></div></td></tr>'}</tbody>
+  </table></div></div>`;
+}
+function setCandFilter(f) { candFilter=f; render(); }
+
+// ── Clients ──────────────────────────────────────────────────────
+let clientFilter = 'All';
+function renderClients() {
+  const statuses = ['All','Hot','Warm','Cold'];
+  let list = clients;
+  if (clientFilter!=='All') list = list.filter(c=>c.status===clientFilter);
+  if (searchTerm) list = list.filter(c=>(c.name+c.contact+c.city).toLowerCase().includes(searchTerm));
+  return `
+  <div class="filter-bar">
+    ${statuses.map(s=>`<button class="fchip${clientFilter===s?' active':''}" onclick="setClientFilter('${s}')">${s} <span style="opacity:.55;font-size:10px">${s==='All'?clients.length:clients.filter(c=>c.status===s).length}</span></button>`).join('')}
+  </div>
+  <div class="table-card"><div class="table-wrap"><table>
+    <thead><tr><th></th><th>Company</th><th>Contact person</th><th>City</th><th>Open positions</th><th>Status</th><th>WhatsApp</th><th></th></tr></thead>
+    <tbody>${list.length ? list.map(c=>`
+      <tr style="cursor:pointer" onclick="openClientDetail(${c.id})">
+        <td><div class="avatar" style="border-radius:10px;background:var(--bg4)">${initials(c.name)}</div></td>
+        <td class="strong">${c.name}<div style="font-size:11px;color:var(--text3)">${c.email||''}</div></td>
+        <td>${c.contact}</td>
+        <td>${c.city}</td>
+        <td style="font-weight:600;color:var(--text)">${c.openings}</td>
+        <td><span class="badge ${badgeClient(c.status)}">${c.status}</span></td>
+        <td onclick="event.stopPropagation()"><a href="${waLink(c.phone,c.contact)}" target="_blank"><button class="wa-icon"><i class="fab fa-whatsapp"></i></button></a></td>
+        <td onclick="event.stopPropagation()" style="white-space:nowrap">
+          <button class="edit-btn" onclick="editClient(${c.id})" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+          <button class="del-btn" onclick="deleteClient(${c.id})" title="Delete"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="8"><div class="empty"><i class="fas fa-building"></i><p>No clients found</p></div></td></tr>'}</tbody>
+  </table></div></div>`;
+}
+function setClientFilter(f) { clientFilter=f; render(); }
+
+// ── Jobs ─────────────────────────────────────────────────────────
+let jobFilter = 'All';
+function renderJobs() {
+  const statuses = ['All','Active','On Hold','Closed'];
+  let list = jobs;
+  if (jobFilter!=='All') list = list.filter(j=>j.status===jobFilter);
+  if (searchTerm) list = list.filter(j=>(j.client+j.role+j.skills).toLowerCase().includes(searchTerm));
+  return `
+  <div class="filter-bar">
+    ${statuses.map(s=>`<button class="fchip${jobFilter===s?' active':''}" onclick="setJobFilter('${s}')">${s} <span style="opacity:.55;font-size:10px">${s==='All'?jobs.length:jobs.filter(j=>j.status===s).length}</span></button>`).join('')}
+  </div>
+  <div class="table-card"><div class="table-wrap"><table>
+    <thead><tr><th>Client</th><th>Role</th><th>Exp (yrs)</th><th>Budget (LPA)</th><th>Positions</th><th>Deadline</th><th>Key skills</th><th>Status</th><th></th></tr></thead>
+    <tbody>${list.length ? list.map(j=>`
+      <tr>
+        <td class="strong">${j.client}</td>
+        <td style="color:var(--text);font-weight:500">${j.role}</td>
+        <td>${j.exp}</td>
+        <td>${j.budget}</td>
+        <td style="font-weight:600;color:var(--text)">${j.positions}</td>
+        <td>${fmtDate(j.deadline)}</td>
+        <td style="font-size:12px;color:var(--text3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${j.skills||'—'}</td>
+        <td><span class="badge ${badgeJob(j.status)}">${j.status}</span></td>
+        <td style="white-space:nowrap">
+          <button class="edit-btn" onclick="editJob(${j.id})" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+          <button class="del-btn" onclick="deleteJob(${j.id})" title="Delete"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="9"><div class="empty"><i class="fas fa-briefcase"></i><p>No job orders found</p></div></td></tr>'}</tbody>
+  </table></div></div>`;
+}
+function setJobFilter(f) { jobFilter=f; render(); }
+
+// ── Follow-ups ───────────────────────────────────────────────────
+function renderFollowups() {
+  let list = [...followups].sort((a,b)=>{const o={'Today':0,'Tomorrow':1};return (o[a.due]??2)-(o[b.due]??2);});
+  if (searchTerm) list = list.filter(f=>(f.name+f.action).toLowerCase().includes(searchTerm));
+  return `
+  <div class="table-card"><div class="table-wrap"><table>
+    <thead><tr><th>Type</th><th>Name</th><th>Action needed</th><th>Due</th><th>Priority</th><th>WhatsApp</th><th></th></tr></thead>
+    <tbody>${list.length ? list.map(f=>`
+      <tr>
+        <td><span class="badge ${f.type==='Candidate'?'b-interested':'b-hot'}">${f.type}</span></td>
+        <td class="strong">${f.name}</td>
+        <td style="font-size:12px;color:var(--text2)">${f.action}</td>
+        <td style="font-weight:600;color:${f.due==='Today'?'var(--red)':f.due==='Tomorrow'?'var(--amber)':'var(--text2)'}">${fmtDate(f.due)}</td>
+        <td><span class="badge ${f.priority==='High'?'b-high':'b-normal'}">${f.priority}</span></td>
+        <td><a href="${waLink(f.phone,f.name)}" target="_blank"><button class="wa-icon"><i class="fab fa-whatsapp"></i></button></a></td>
+        <td><button onclick="markDone(${f.id})" class="btn btn-sm" title="Mark done" style="color:var(--accent)"><i class="fas fa-check"></i></button></td>
+      </tr>`).join('') : '<tr><td colspan="7"><div class="empty"><i class="fas fa-bell"></i><p>No follow-ups scheduled</p></div></td></tr>'}</tbody>
+  </table></div></div>`;
+}
+function markDone(id) { followups=followups.filter(f=>f.id!==id); save('wcrm_followups',followups); render(); showToast('Marked as done'); }
+
+// ── Add / Edit Candidate ─────────────────────────────────────────
+let editCandId = null;
+function openAddCandidate(prefill) {
+  editCandId = prefill&&prefill.id ? prefill.id : null;
+  const p = prefill||{};
+  const isEdit = !!editCandId;
+  openDrawer(isEdit ? 'Edit Candidate' : 'New Candidate', `
+    <div class="source-pill" id="src-pill"><i class="${srcIcon(p.source||'LinkedIn')}"></i> <span id="src-pill-text">${p.source||'LinkedIn'}</span></div>
+    <div class="form-section">Basic Info</div>
+    <div class="fg"><label>Full name *</label><input id="c-name" placeholder="e.g. Rajesh Kumar" value="${p.name||''}"></div>
+    <div class="fg2">
+      <div class="fg"><label>Phone *</label><input id="c-phone" type="tel" placeholder="98XXXXXXXX" value="${p.phone||''}"></div>
+      <div class="fg"><label>Source</label>
+        <select id="c-source" onchange="updateSrcPill()">
+          ${['LinkedIn','Naukri','Referral','WhatsApp','Other'].map(s=>`<option${s===(p.source||'LinkedIn')?' selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="fg2">
+      <div class="fg"><label>Location</label><input id="c-loc" placeholder="e.g. Chennai" value="${p.location||''}"></div>
+      <div class="fg"><label>Email</label><input id="c-email" type="email" placeholder="optional" value="${p.email||''}"></div>
+    </div>
+    <div class="form-section">Professional Details</div>
+    <div class="fg"><label>Current role / designation *</label><input id="c-role" placeholder="e.g. Java Developer" value="${p.role||''}"></div>
+    <div class="fg2">
+      <div class="fg"><label>Experience (years) *</label><input id="c-exp" type="number" min="0" max="40" placeholder="4" value="${p.exp||''}"></div>
+      <div class="fg"><label>Current CTC (LPA)</label><input id="c-ctc" type="number" step="0.5" placeholder="8" value="${(p.ctc&&p.ctc!=='—')?p.ctc:''}"></div>
+    </div>
+    <div class="fg2">
+      <div class="fg"><label>Expected CTC (LPA)</label><input id="c-ectc" type="number" step="0.5" placeholder="10" value="${(p.ectc&&p.ectc!=='—')?p.ectc:''}"></div>
+      <div class="fg"><label>Notice period</label>
+        <select id="c-avail">
+          ${['Immediate','15 days','30 days','60 days','90 days'].map(s=>`<option${s===(p.avail||'Immediate')?' selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label>Skills (comma separated)</label><input id="c-skills" placeholder="Java, Spring Boot, MySQL" value="${(p.skills||[]).join(', ')}"></div>
+    <div class="form-section">Status & Notes</div>
+    <div class="fg"><label>Pipeline status</label>
+      <select id="c-status">
+        ${['New','Contacted','Interested','Placed','Rejected'].map(s=>`<option${s===(p.status||'New')?' selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Notes</label><textarea id="c-note" placeholder="Paste key points from their message or your conversation...">${p.note||''}</textarea></div>
+  `, `<button class="btn" onclick="closeDrawer()">Cancel</button>
+      <button class="btn btn-accent" onclick="saveCandidate()"><i class="fas fa-save"></i> ${isEdit?'Update candidate':'Save candidate'}</button>`);
+  setTimeout(()=>document.getElementById('c-name').focus(),100);
+}
+function editCandidate(id) {
+  const c = candidates.find(x=>x.id===id); if(!c) return;
+  closeDrawer(); setTimeout(()=>openAddCandidate(c), 180);
+}
+function updateSrcPill() {
+  const s = document.getElementById('c-source').value;
+  document.getElementById('src-pill-text').textContent = s;
+  document.querySelector('#src-pill i').className = srcIcon(s);
+}
+function saveCandidate() {
+  const name=v('c-name'), phone=v('c-phone'), role=v('c-role'), exp=v('c-exp');
+  if(!name||!phone||!role||!exp){showToast('Please fill all required fields'); return;}
+  const skillsRaw=v('c-skills');
+  const record = {name,phone,role,exp,ctc:v('c-ctc')||'—',ectc:v('c-ectc')||'—',avail:v('c-avail'),status:v('c-status'),skills:skillsRaw?skillsRaw.split(',').map(s=>s.trim()).filter(Boolean):[],note:v('c-note'),source:v('c-source'),location:v('c-loc'),email:v('c-email')};
+  if (editCandId) {
+    const idx = candidates.findIndex(x=>x.id===editCandId);
+    if(idx>-1) candidates[idx] = {...candidates[idx],...record};
+    showToast(name+' updated ✓');
+  } else {
+    candidates.push({id:nextId.c++,...record});
+    showToast(name+' added to candidates ✓');
+  }
+  editCandId=null; save('wcrm_candidates',candidates); closeDrawer(); render();
+}
+
+// ── Add / Edit Client ────────────────────────────────────────────
+let editClientId = null;
+function openAddClient(prefill) {
+  editClientId = prefill&&prefill.id ? prefill.id : null;
+  const p = prefill||{};
+  const isEdit = !!editClientId;
+  openDrawer(isEdit ? 'Edit Client' : 'New Client', `
+    <div class="form-section">Company Details</div>
+    <div class="fg"><label>Company name *</label><input id="cl-name" placeholder="e.g. TechCorp Solutions" value="${p.name||''}"></div>
+    <div class="fg2">
+      <div class="fg"><label>City *</label><input id="cl-city" placeholder="Chennai" value="${p.city||''}"></div>
+      <div class="fg"><label>Open positions</label><input id="cl-openings" type="number" min="1" placeholder="3" value="${p.openings||1}"></div>
+    </div>
+    <div class="form-section">Contact Person</div>
+    <div class="fg"><label>Contact name *</label><input id="cl-contact" placeholder="e.g. Ravi Kumar" value="${p.contact||''}"></div>
+    <div class="fg2">
+      <div class="fg"><label>Phone *</label><input id="cl-phone" type="tel" placeholder="98XXXXXXXX" value="${p.phone||''}"></div>
+      <div class="fg"><label>Email</label><input id="cl-email" type="email" placeholder="optional" value="${p.email||''}"></div>
+    </div>
+    <div class="form-section">Status & Notes</div>
+    <div class="fg"><label>Lead status</label>
+      <select id="cl-status">
+        ${['Hot','Warm','Cold'].map(s=>`<option${s===(p.status||'Hot')?' selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Notes</label><textarea id="cl-note" placeholder="Requirements, timeline, budget notes...">${p.note||''}</textarea></div>
+  `, `<button class="btn" onclick="closeDrawer()">Cancel</button>
+      <button class="btn btn-accent" onclick="saveClient()"><i class="fas fa-save"></i> ${isEdit?'Update client':'Save client'}</button>`);
+  setTimeout(()=>document.getElementById('cl-name').focus(),100);
+}
+function editClient(id) {
+  const c = clients.find(x=>x.id===id); if(!c) return;
+  closeDrawer(); setTimeout(()=>openAddClient(c), 180);
+}
+function saveClient() {
+  const name=v('cl-name'),contact=v('cl-contact'),phone=v('cl-phone'),city=v('cl-city');
+  if(!name||!contact||!phone||!city){showToast('Please fill all required fields'); return;}
+  const record = {name,contact,phone,city,email:v('cl-email'),openings:parseInt(v('cl-openings'))||1,status:v('cl-status'),note:v('cl-note')};
+  if (editClientId) {
+    const idx = clients.findIndex(x=>x.id===editClientId);
+    if(idx>-1) clients[idx] = {...clients[idx],...record};
+    showToast(name+' updated ✓');
+  } else {
+    clients.push({id:nextId.cl++,...record});
+    showToast(name+' added to clients ✓');
+  }
+  editClientId=null; save('wcrm_clients',clients); closeDrawer(); render();
+}
+
+// ── Add / Edit Job ───────────────────────────────────────────────
+let editJobId = null;
+function openAddJob(prefill) {
+  editJobId = prefill&&prefill.id ? prefill.id : null;
+  const p = prefill||{};
+  const isEdit = !!editJobId;
+  openDrawer(isEdit ? 'Edit Job Order' : 'New Job Order', `
+    <div class="form-section">Job Details</div>
+    <div class="fg"><label>Client company *</label>
+      <select id="j-client">
+        <option value="">— select client —</option>
+        ${clients.map(c=>`<option${c.name===(p.client||'')?' selected':''}>${c.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Role / Designation *</label><input id="j-role" placeholder="e.g. Java Developer" value="${p.role||''}"></div>
+    <div class="fg2">
+      <div class="fg"><label>Experience (years)</label><input id="j-exp" placeholder="3-5" value="${p.exp||''}"></div>
+      <div class="fg"><label>Budget (LPA)</label><input id="j-budget" placeholder="8-10" value="${p.budget||''}"></div>
+    </div>
+    <div class="fg2">
+      <div class="fg"><label>No. of positions</label><input id="j-pos" type="number" min="1" placeholder="2" value="${p.positions||1}"></div>
+      <div class="fg"><label>Deadline</label><input id="j-deadline" type="date" value="${p.deadline&&p.deadline!=='TBD'?p.deadline:''}"></div>
+    </div>
+    <div class="fg"><label>Key skills required</label><input id="j-skills" placeholder="Java, Spring Boot, Microservices" value="${p.skills||''}"></div>
+    <div class="form-section">Status & Notes</div>
+    <div class="fg"><label>Status</label>
+      <select id="j-status">
+        ${['Active','On Hold','Closed'].map(s=>`<option${s===(p.status||'Active')?' selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Notes</label><textarea id="j-note" placeholder="Work mode, location preference, joining urgency...">${p.note||''}</textarea></div>
+  `, `<button class="btn" onclick="closeDrawer()">Cancel</button>
+      <button class="btn btn-accent" onclick="saveJob()"><i class="fas fa-save"></i> ${isEdit?'Update job order':'Save job order'}</button>`);
+  setTimeout(()=>document.getElementById('j-role').focus(),100);
+}
+function editJob(id) {
+  const j = jobs.find(x=>x.id===id); if(!j) return;
+  closeDrawer(); setTimeout(()=>openAddJob(j), 180);
+}
+function saveJob() {
+  const client=v('j-client'), role=v('j-role');
+  if(!client||!role){showToast('Please select a client and enter the role'); return;}
+  const record = {client,role,exp:v('j-exp')||'—',budget:v('j-budget')||'—',positions:parseInt(v('j-pos'))||1,deadline:v('j-deadline')||'TBD',skills:v('j-skills'),status:v('j-status'),note:v('j-note')};
+  if (editJobId) {
+    const idx = jobs.findIndex(x=>x.id===editJobId);
+    if(idx>-1) jobs[idx] = {...jobs[idx],...record};
+    showToast('Job order updated ✓');
+  } else {
+    jobs.push({id:nextId.j++,...record});
+    showToast('Job order added ✓');
+  }
+  editJobId=null; save('wcrm_jobs',jobs); closeDrawer(); render();
+}
+
+// ── Add Follow-up ────────────────────────────────────────────────
+function openAddFollowup(prefillName,prefillPhone,prefillType) {
+  const allPeople = [
+    ...candidates.map(c=>({label:c.name+' (Candidate)',val:c.name,phone:c.phone,type:'Candidate'})),
+    ...clients.map(c=>({label:c.name+' (Client)',val:c.name,phone:c.phone,type:'Client'}))
+  ];
+  openDrawer('New Follow-up', `
+    <div class="fg2">
+      <div class="fg"><label>Type</label>
+        <select id="fu-type" onchange="onFuType()">
+          <option value="Candidate"${prefillType==='Candidate'?' selected':''}>Candidate</option>
+          <option value="Client"${prefillType==='Client'?' selected':''}>Client</option>
+        </select>
+      </div>
+      <div class="fg"><label>Priority</label>
+        <select id="fu-priority"><option>Normal</option><option>High</option></select>
+      </div>
+    </div>
+    <div class="fg"><label>Name *</label>
+      <select id="fu-name" onchange="onFuName()">
+        <option value="">— select —</option>
+        ${allPeople.map(p=>`<option value="${p.val}" data-phone="${p.phone}" data-type="${p.type}"${p.val===prefillName?' selected':''}>${p.label}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Phone *</label><input type="tel" id="fu-phone" placeholder="98XXXXXXXX" value="${prefillPhone||''}"></div>
+    <div class="fg"><label>Action needed *</label><textarea id="fu-action" placeholder="e.g. Send JD for Java Developer role, check notice period..."></textarea></div>
+    <div class="fg2">
+      <div class="fg"><label>Due</label>
+        <select id="fu-due" onchange="onFuDue()">
+          <option value="Today">Today</option>
+          <option value="Tomorrow">Tomorrow</option>
+          <option value="custom">Pick a date...</option>
+        </select>
+      </div>
+      <div class="fg" id="fu-date-wrap" style="display:none"><label>Date</label><input type="date" id="fu-date"></div>
+    </div>
+  `, `<button class="btn" onclick="closeDrawer()">Cancel</button><button class="btn btn-accent" onclick="saveFollowup()"><i class="fas fa-save"></i> Save follow-up</button>`);
+}
+function onFuType() {
+  const t=v('fu-type');
+  const allPeople=[...candidates.map(c=>({label:c.name,val:c.name,phone:c.phone,type:'Candidate'})),...clients.map(c=>({label:c.name,val:c.name,phone:c.phone,type:'Client'}))];
+  const sel=document.getElementById('fu-name');
+  sel.innerHTML='<option value="">— select —</option>'+allPeople.filter(p=>p.type===t).map(p=>`<option value="${p.val}" data-phone="${p.phone}">${p.label}</option>`).join('');
+  document.getElementById('fu-phone').value='';
+}
+function onFuName() {
+  const sel=document.getElementById('fu-name');
+  const opt=sel.options[sel.selectedIndex];
+  if(opt&&opt.dataset.phone) document.getElementById('fu-phone').value=opt.dataset.phone;
+}
+function onFuDue() {
+  document.getElementById('fu-date-wrap').style.display=v('fu-due')==='custom'?'flex':'none';
+}
+function saveFollowup() {
+  const name=v('fu-name'),phone=v('fu-phone'),action=v('fu-action'),dueVal=v('fu-due');
+  if(!name||!phone||!action){showToast('Please fill all required fields'); return;}
+  let due=dueVal;
+  if(dueVal==='custom'){const d=v('fu-date');if(!d){showToast('Please pick a date');return;}due=d;}
+  followups.push({id:nextId.f++,type:v('fu-type'),name,action,due,phone,priority:v('fu-priority')});
+  save('wcrm_followups',followups); closeDrawer(); render(); showToast('Follow-up added ✓');
+}
+
+// ── Detail panels ────────────────────────────────────────────────
+function openCandDetail(id) {
+  const c = candidates.find(x=>x.id===id); if(!c) return;
+  openDrawer(c.name, `
+    <div class="detail-hero">
+      <div class="detail-avatar">${initials(c.name)}</div>
+      <div style="flex:1">
+        <div class="detail-name">${c.name}</div>
+        <div class="detail-sub">${c.role} · ${c.exp} yrs exp · ${c.location||'—'}</div>
+        <div style="margin-top:8px"><span class="badge ${badgeCand(c.status)}">${c.status}</span>&nbsp;<span class="badge" style="background:rgba(255,255,255,0.05);color:var(--text3)"><i class="${srcIcon(c.source)}" style="font-size:10px;margin-right:3px"></i>${c.source}</span></div>
+      </div>
+    </div>
+    <div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">${c.phone}</span></div>
+    <div class="detail-row"><span class="detail-key">Email</span><span class="detail-val">${c.email||'—'}</span></div>
+    <div class="detail-row"><span class="detail-key">CTC → Expected</span><span class="detail-val">${c.ctc} → ${c.ectc} LPA</span></div>
+    <div class="detail-row"><span class="detail-key">Notice period</span><span class="detail-val">${c.avail}</span></div>
+    <div class="detail-row"><span class="detail-key">Skills</span><span class="detail-val" style="text-align:right"><div class="skills-wrap" style="justify-content:flex-end">${(c.skills||[]).map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div></span></div>
+    ${c.note?`<div style="margin-top:12px"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Notes</div><div class="note-block">${c.note}</div></div>`:''}
+  `, `<button class="btn" onclick="deleteCandidate(${c.id})" style="color:var(--red);border-color:rgba(247,84,84,0.3)"><i class="fas fa-trash"></i> Delete</button>
+  <button class="btn" onclick="editCandidate(${c.id})"><i class="fas fa-pencil-alt"></i> Edit</button>
+  <a href="${waLink(c.phone,c.name)}" target="_blank"><button class="btn btn-wa"><i class="fab fa-whatsapp"></i> Chat</button></a>
+  <button class="btn btn-accent" onclick="closeDrawer();openAddFollowup('${c.name}','${c.phone}','Candidate')"><i class="fas fa-bell"></i> Follow-up</button>`);
+}
+
+function openClientDetail(id) {
+  const c = clients.find(x=>x.id===id); if(!c) return;
+  const cJobs = jobs.filter(j=>j.client===c.name);
+  openDrawer(c.name, `
+    <div class="detail-hero">
+      <div class="detail-avatar" style="border-radius:12px">${initials(c.name)}</div>
+      <div style="flex:1">
+        <div class="detail-name">${c.name}</div>
+        <div class="detail-sub">${c.city} · ${c.openings} open position${c.openings!==1?'s':''}</div>
+        <div style="margin-top:8px"><span class="badge ${badgeClient(c.status)}">${c.status}</span></div>
+      </div>
+    </div>
+    <div class="detail-row"><span class="detail-key">Contact person</span><span class="detail-val">${c.contact}</span></div>
+    <div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">${c.phone}</span></div>
+    <div class="detail-row"><span class="detail-key">Email</span><span class="detail-val">${c.email||'—'}</span></div>
+    ${c.note?`<div style="margin-top:12px"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Notes</div><div class="note-block">${c.note}</div></div>`:''}
+    ${cJobs.length?`<div style="margin-top:16px;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Open job orders</div>${cJobs.map(j=>`<div class="dash-row"><div style="flex:1"><div class="dash-row-name">${j.role}</div><div class="dash-row-sub">${j.exp} yrs · ${j.budget} LPA · Deadline: ${fmtDate(j.deadline)}</div></div><span class="badge ${badgeJob(j.status)}">${j.status}</span></div>`).join('')}`:''}
+  `, `<button class="btn" onclick="deleteClient(${c.id})" style="color:var(--red);border-color:rgba(247,84,84,0.3)"><i class="fas fa-trash"></i> Delete</button>
+  <button class="btn" onclick="editClient(${c.id})"><i class="fas fa-pencil-alt"></i> Edit</button>
+  <a href="${waLink(c.phone,c.contact)}" target="_blank"><button class="btn btn-wa"><i class="fab fa-whatsapp"></i> Chat</button></a>
+  <button class="btn btn-accent" onclick="closeDrawer();openAddFollowup('${c.name}','${c.phone}','Client')"><i class="fas fa-bell"></i> Follow-up</button>`);
+}
+
+// ── Delete functions ─────────────────────────────────────────────
+function deleteCandidate(id) {
+  const c = candidates.find(x=>x.id===id); if(!c) return;
+  if (!confirm('Delete candidate "' + c.name + '"? This cannot be undone.')) return;
+  candidates = candidates.filter(x=>x.id!==id);
+  save('wcrm_candidates', candidates); closeDrawer(); render(); showToast(c.name + ' deleted');
+}
+function deleteClient(id) {
+  const c = clients.find(x=>x.id===id); if(!c) return;
+  if (!confirm('Delete client "' + c.name + '"? This cannot be undone.')) return;
+  clients = clients.filter(x=>x.id!==id);
+  save('wcrm_clients', clients); closeDrawer(); render(); showToast(c.name + ' deleted');
+}
+function deleteJob(id) {
+  const j = jobs.find(x=>x.id===id); if(!j) return;
+  if (!confirm('Delete job order "' + j.role + ' @ ' + j.client + '"? This cannot be undone.')) return;
+  jobs = jobs.filter(x=>x.id!==id);
+  save('wcrm_jobs', jobs); render(); showToast('Job order deleted');
+}
+function clearAllData() {
+  if (!confirm('⚠️ This will DELETE ALL candidates, clients, jobs and follow-ups.\n\nAre you absolutely sure? Export a backup first if needed.')) return;
+  if (!confirm('Last chance — click OK to permanently clear everything.')) return;
+  candidates=[]; clients=[]; jobs=[]; followups=[];
+  nextId={c:1,cl:1,j:1,f:1};
+  ['wcrm_candidates','wcrm_clients','wcrm_jobs','wcrm_followups'].forEach(k=>localStorage.removeItem(k));
+  closeDrawer(); closeSidebar(); render(); showToast('All data cleared');
+}
+
+// ── Export / Import ──────────────────────────────────────────────
+function exportData() {
+  const payload = {
+    version: 1,
+    exported: new Date().toISOString(),
+    candidates, clients, jobs, followups
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10);
+  a.href = url; a.download = 'wcrm-backup-' + date + '.json';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('Backup downloaded ✓');
+  closeSidebar();
+}
+
+function importData(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const d = JSON.parse(e.target.result);
+      if (!d.candidates || !d.clients || !d.jobs || !d.followups) { showToast('Invalid backup file'); return; }
+      if (!confirm('This will REPLACE all current data with the backup. Are you sure?')) return;
+      candidates = d.candidates; clients = d.clients; jobs = d.jobs; followups = d.followups;
+      nextId.c  = Math.max(0,...candidates.map(x=>x.id))+1;
+      nextId.cl = Math.max(0,...clients.map(x=>x.id))+1;
+      nextId.j  = Math.max(0,...jobs.map(x=>x.id))+1;
+      nextId.f  = Math.max(0,...followups.map(x=>x.id))+1;
+      save('wcrm_candidates',candidates); save('wcrm_clients',clients);
+      save('wcrm_jobs',jobs); save('wcrm_followups',followups);
+      render(); showToast('Backup restored ✓ — ' + candidates.length + ' candidates, ' + clients.length + ' clients');
+    } catch { showToast('Could not read file. Make sure it is a valid backup.'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// ── Password / Lock ──────────────────────────────────────────────
+const DEFAULT_PWD = 'mk@crm2024';
+let failedAttempts = 0;
+let lockUntil = 0;
+
+function getPassword() { return localStorage.getItem('wcrm_pwd') || DEFAULT_PWD; }
+
+function checkPassword() {
+  const now = Date.now();
+  if (now < lockUntil) {
+    const secs = Math.ceil((lockUntil - now) / 1000);
+    document.getElementById('lock-error').textContent = 'Too many attempts. Try again in ' + secs + 's.';
+    return;
+  }
+  const input = document.getElementById('lock-pwd').value;
+  if (input === getPassword()) {
+    failedAttempts = 0;
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('lock-pwd').value = '';
+  } else {
+    failedAttempts++;
+    const inputEl = document.getElementById('lock-pwd');
+    inputEl.classList.remove('shake');
+    void inputEl.offsetWidth; // reflow to restart animation
+    inputEl.classList.add('shake');
+    inputEl.value = '';
+    if (failedAttempts >= 5) {
+      lockUntil = Date.now() + 30000;
+      document.getElementById('lock-error').textContent = 'Too many attempts. Locked for 30 seconds.';
+      document.getElementById('lock-attempts').textContent = '';
+    } else {
+      document.getElementById('lock-error').textContent = 'Incorrect password.';
+      document.getElementById('lock-attempts').textContent = (5 - failedAttempts) + ' attempt' + (5-failedAttempts===1?'':'s') + ' remaining.';
+    }
+    setTimeout(()=>{ document.getElementById('lock-error').textContent=''; document.getElementById('lock-attempts').textContent=''; }, 3000);
+  }
+}
+
+function togglePwdVisibility() {
+  const inp = document.getElementById('lock-pwd');
+  const icon = document.getElementById('eye-icon');
+  if (inp.type === 'password') { inp.type='text'; icon.className='fas fa-eye-slash'; }
+  else { inp.type='password'; icon.className='fas fa-eye'; }
+}
+
+function openChangePassword() {
+  closeSidebar();
+  openDrawer('Change Password', `
+    <div style="background:rgba(247,163,37,0.08);border:1px solid rgba(247,163,37,0.2);border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;color:var(--amber);margin-bottom:18px;">
+      <i class="fas fa-info-circle" style="margin-right:6px"></i>Password is stored in your browser. Anyone with access to this browser can change it.
+    </div>
+    <div class="fg"><label>Current password *</label><input type="password" id="cp-current" placeholder="Enter current password"></div>
+    <div class="fg"><label>New password *</label><input type="password" id="cp-new" placeholder="Min 6 characters"></div>
+    <div class="fg"><label>Confirm new password *</label><input type="password" id="cp-confirm" placeholder="Repeat new password"></div>
+    <div id="cp-error" style="font-size:12px;color:var(--red);min-height:18px;margin-top:4px"></div>
+  `, `<button class="btn" onclick="closeDrawer()">Cancel</button>
+      <button class="btn btn-accent" onclick="saveNewPassword()"><i class="fas fa-save"></i> Save password</button>`);
+  setTimeout(()=>document.getElementById('cp-current').focus(), 100);
+}
+
+function saveNewPassword() {
+  const current = document.getElementById('cp-current').value;
+  const newPwd  = document.getElementById('cp-new').value.trim();
+  const confirm = document.getElementById('cp-confirm').value.trim();
+  const errEl   = document.getElementById('cp-error');
+  if (current !== getPassword())    { errEl.textContent = 'Current password is incorrect.'; return; }
+  if (newPwd.length < 6)            { errEl.textContent = 'New password must be at least 6 characters.'; return; }
+  if (newPwd !== confirm)           { errEl.textContent = 'Passwords do not match.'; return; }
+  localStorage.setItem('wcrm_pwd', newPwd);
+  closeDrawer(); showToast('Password updated ✓');
+}
+
+// ── Utility ──────────────────────────────────────────────────────
+function v(id) { const el=document.getElementById(id); return el?el.value.trim():''; }
+
+// ── Init ─────────────────────────────────────────────────────────
+document.getElementById('add-btn').style.display = 'none';
+render();
+</script>
+</body>
+</html>
