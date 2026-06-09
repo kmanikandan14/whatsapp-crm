@@ -252,73 +252,9 @@ td.strong { color: var(--text); font-weight: 500; }
 @media (max-width: 400px) {
   .stats-grid { grid-template-columns: 1fr; }
 }
-
-/* Password screen */
-#lock-screen {
-  position: fixed; inset: 0; background: var(--bg); z-index: 9999;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'DM Sans', sans-serif;
-}
-.lock-card {
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: 20px; padding: 40px 36px; width: 100%; max-width: 360px;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.6); text-align: center;
-  animation: lockIn .4s cubic-bezier(.4,0,.2,1);
-}
-@keyframes lockIn { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
-.lock-icon {
-  width: 56px; height: 56px; background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.25);
-  border-radius: 16px; display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px; font-size: 24px; color: var(--accent);
-}
-.lock-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.lock-sub { font-size: 13px; color: var(--text3); margin-bottom: 28px; }
-.lock-input-wrap { position: relative; margin-bottom: 14px; }
-.lock-input-wrap input {
-  width: 100%; background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 12px 44px 12px 16px;
-  color: var(--text); font-size: 15px; font-family: 'DM Sans', sans-serif;
-  outline: none; letter-spacing: 2px; transition: border-color .2s;
-}
-.lock-input-wrap input:focus { border-color: var(--accent); }
-.lock-input-wrap input.shake { animation: shake .35s; border-color: var(--red); }
-@keyframes shake {
-  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
-}
-.lock-eye {
-  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; color: var(--text3); cursor: pointer; font-size: 15px; padding: 4px;
-}
-.lock-eye:hover { color: var(--text2); }
-.lock-btn {
-  width: 100%; padding: 12px; background: var(--accent); border: none; border-radius: var(--radius-sm);
-  color: #000; font-size: 14px; font-weight: 700; font-family: 'DM Sans', sans-serif;
-  cursor: pointer; transition: background .18s; letter-spacing: .3px;
-}
-.lock-btn:hover { background: var(--accent2); }
-.lock-error { font-size: 12px; color: var(--red); margin-top: 10px; min-height: 18px; }
-.lock-hint { font-size: 11px; color: var(--text3); margin-top: 18px; }
-.lock-attempts { font-size: 11px; color: var(--amber); margin-top: 8px; min-height: 16px; }
 </style>
 </head>
 <body>
-
-<!-- ── Lock Screen ─────────────────────────────────────────────── -->
-<div id="lock-screen">
-  <div class="lock-card">
-    <div class="lock-icon"><i class="fab fa-whatsapp"></i></div>
-    <div class="lock-title">WA CRM</div>
-    <div class="lock-sub">Manikandan Consultancy · Enter your password</div>
-    <div class="lock-input-wrap">
-      <input type="password" id="lock-pwd" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()" autocomplete="current-password">
-      <button class="lock-eye" onclick="togglePwdVisibility()" id="eye-btn" title="Show/hide"><i class="fas fa-eye" id="eye-icon"></i></button>
-    </div>
-    <button class="lock-btn" onclick="checkPassword()"><i class="fas fa-unlock-alt" style="margin-right:7px"></i>Unlock</button>
-    <div class="lock-error" id="lock-error"></div>
-    <div class="lock-attempts" id="lock-attempts"></div>
-    <div class="lock-hint">Hint: your default password is <strong>mk@crm2024</strong><br>Change it anytime from the sidebar.</div>
-  </div>
-</div>
 
 <div class="mob-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
 
@@ -355,9 +291,6 @@ td.strong { color: var(--text); font-weight: 500; }
       <span class="nav-badge" id="nb-fu" style="background:var(--red);color:#fff">0</span>
     </div>
     <div class="nav-section">Data</div>
-    <div class="nav-item" onclick="openChangePassword()">
-      <span class="nav-icon"><i class="fas fa-key"></i></span> Change password
-    </div>
     <div class="nav-item" onclick="exportData()">
       <span class="nav-icon"><i class="fas fa-download"></i></span> Export backup
     </div>
@@ -412,6 +345,9 @@ function load(key, def) {
 function save(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
 }
+function loadOrEmpty(key) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : []; } catch { return []; }
+}
 
 // ── Default seed data ────────────────────────────────────────────
 const SEED_CANDIDATES = [
@@ -439,11 +375,35 @@ const SEED_FU = [
   {id:4,type:"Client",name:"InfoSys Partners",action:"Send BA candidate profiles",due:"2026-06-05",phone:"9840000002",priority:"Normal"},
 ];
 
-let candidates = load('wcrm_candidates', SEED_CANDIDATES);
-let clients    = load('wcrm_clients', SEED_CLIENTS);
-let jobs       = load('wcrm_jobs', SEED_JOBS);
-let followups  = load('wcrm_followups', SEED_FU);
-let nextId = { c: Math.max(0,...candidates.map(x=>x.id))+1, cl: Math.max(0,...clients.map(x=>x.id))+1, j: Math.max(0,...jobs.map(x=>x.id))+1, f: Math.max(0,...followups.map(x=>x.id))+1 };
+// ── Load data (never auto-seed from code after first clear) ──────
+// On very first open ever: seed with sample data so UI isn't blank
+// After that: always use whatever is in localStorage (including empty after clear)
+const FIRST_RUN_KEY = 'wcrm_initialized';
+const isFirstRun = !localStorage.getItem(FIRST_RUN_KEY);
+
+let candidates, clients, jobs, followups;
+
+if (isFirstRun) {
+  // First time opening this app on this browser/domain — load seed data
+  candidates = SEED_CANDIDATES;
+  clients    = SEED_CLIENTS;
+  jobs       = SEED_JOBS;
+  followups  = SEED_FU;
+  // Save seed data to localStorage immediately
+  save('wcrm_candidates', candidates);
+  save('wcrm_clients',    clients);
+  save('wcrm_jobs',       jobs);
+  save('wcrm_followups',  followups);
+  save(FIRST_RUN_KEY,     '1');
+} else {
+  // Not first run — always load from localStorage (import restored data or user's real data)
+  candidates = loadOrEmpty('wcrm_candidates');
+  clients    = loadOrEmpty('wcrm_clients');
+  jobs       = loadOrEmpty('wcrm_jobs');
+  followups  = loadOrEmpty('wcrm_followups');
+}
+
+let nextId = { c: Math.max(0,...(candidates.length?candidates.map(x=>x.id):[0]))+1, cl: Math.max(0,...(clients.length?clients.map(x=>x.id):[0]))+1, j: Math.max(0,...(jobs.length?jobs.map(x=>x.id):[0]))+1, f: Math.max(0,...(followups.length?followups.map(x=>x.id):[0]))+1 };
 
 let currentView = 'dashboard';
 let searchTerm = '';
@@ -598,12 +558,13 @@ function renderCandidates() {
     ${statuses.map(s=>`<button class="fchip${candFilter===s?' active':''}" onclick="setCandFilter('${s}')">${s} <span style="opacity:.55;font-size:10px">${s==='All'?candidates.length:candidates.filter(c=>c.status===s).length}</span></button>`).join('')}
   </div>
   <div class="table-card"><div class="table-wrap"><table>
-    <thead><tr><th></th><th>Name</th><th>Role</th><th>Exp</th><th>CTC→Expected</th><th>Notice</th><th>Source</th><th>Status</th><th>WhatsApp</th><th></th></tr></thead>
+    <thead><tr><th></th><th>Name</th><th>Role</th><th>Skills</th><th>Exp</th><th>CTC→Expected</th><th>Notice</th><th>Source</th><th>Status</th><th>WhatsApp</th><th></th></tr></thead>
     <tbody>${list.length ? list.map(c=>`
       <tr style="cursor:pointer" onclick="openCandDetail(${c.id})">
         <td><div class="avatar">${initials(c.name)}</div></td>
         <td class="strong">${c.name}<div style="font-size:11px;color:var(--text3)">${c.location||''}</div></td>
         <td>${c.role}</td>
+         <td>${(c.skills||[]).map(s=>`<span style="display:inline-block;background:var(--bg4);color:var(--text2);border-radius:5px;padding:1px 7px;font-size:11px;margin:1px 2px">${s}</span>`).join('')||'—'}</td>
         <td>${c.exp} yrs</td>
         <td>${c.ctc||'—'} → ${c.ectc||'?'} LPA</td>
         <td>${c.avail}</td>
@@ -1012,7 +973,9 @@ function clearAllData() {
   if (!confirm('Last chance — click OK to permanently clear everything.')) return;
   candidates=[]; clients=[]; jobs=[]; followups=[];
   nextId={c:1,cl:1,j:1,f:1};
-  ['wcrm_candidates','wcrm_clients','wcrm_jobs','wcrm_followups'].forEach(k=>localStorage.removeItem(k));
+  // Save empty arrays (don't remove keys — removing would trigger first-run seed on next open)
+  save('wcrm_candidates',[]); save('wcrm_clients',[]); save('wcrm_jobs',[]); save('wcrm_followups',[]);
+  save(FIRST_RUN_KEY,'1'); // keep initialized flag so seed never runs again
   closeDrawer(); closeSidebar(); render(); showToast('All data cleared');
 }
 
@@ -1043,89 +1006,18 @@ function importData(event) {
       if (!d.candidates || !d.clients || !d.jobs || !d.followups) { showToast('Invalid backup file'); return; }
       if (!confirm('This will REPLACE all current data with the backup. Are you sure?')) return;
       candidates = d.candidates; clients = d.clients; jobs = d.jobs; followups = d.followups;
-      nextId.c  = Math.max(0,...candidates.map(x=>x.id))+1;
-      nextId.cl = Math.max(0,...clients.map(x=>x.id))+1;
-      nextId.j  = Math.max(0,...jobs.map(x=>x.id))+1;
-      nextId.f  = Math.max(0,...followups.map(x=>x.id))+1;
+      nextId.c  = Math.max(0,...(candidates.length?candidates.map(x=>x.id):[0]))+1;
+      nextId.cl = Math.max(0,...(clients.length?clients.map(x=>x.id):[0]))+1;
+      nextId.j  = Math.max(0,...(jobs.length?jobs.map(x=>x.id):[0]))+1;
+      nextId.f  = Math.max(0,...(followups.length?followups.map(x=>x.id):[0]))+1;
       save('wcrm_candidates',candidates); save('wcrm_clients',clients);
       save('wcrm_jobs',jobs); save('wcrm_followups',followups);
+      save(FIRST_RUN_KEY, '1'); // mark initialized so seed data never overwrites again
       render(); showToast('Backup restored ✓ — ' + candidates.length + ' candidates, ' + clients.length + ' clients');
     } catch { showToast('Could not read file. Make sure it is a valid backup.'); }
   };
   reader.readAsText(file);
   event.target.value = '';
-}
-
-// ── Password / Lock ──────────────────────────────────────────────
-const DEFAULT_PWD = 'mk@crm2024';
-let failedAttempts = 0;
-let lockUntil = 0;
-
-function getPassword() { return localStorage.getItem('wcrm_pwd') || DEFAULT_PWD; }
-
-function checkPassword() {
-  const now = Date.now();
-  if (now < lockUntil) {
-    const secs = Math.ceil((lockUntil - now) / 1000);
-    document.getElementById('lock-error').textContent = 'Too many attempts. Try again in ' + secs + 's.';
-    return;
-  }
-  const input = document.getElementById('lock-pwd').value;
-  if (input === getPassword()) {
-    failedAttempts = 0;
-    document.getElementById('lock-screen').style.display = 'none';
-    document.getElementById('lock-pwd').value = '';
-  } else {
-    failedAttempts++;
-    const inputEl = document.getElementById('lock-pwd');
-    inputEl.classList.remove('shake');
-    void inputEl.offsetWidth; // reflow to restart animation
-    inputEl.classList.add('shake');
-    inputEl.value = '';
-    if (failedAttempts >= 5) {
-      lockUntil = Date.now() + 30000;
-      document.getElementById('lock-error').textContent = 'Too many attempts. Locked for 30 seconds.';
-      document.getElementById('lock-attempts').textContent = '';
-    } else {
-      document.getElementById('lock-error').textContent = 'Incorrect password.';
-      document.getElementById('lock-attempts').textContent = (5 - failedAttempts) + ' attempt' + (5-failedAttempts===1?'':'s') + ' remaining.';
-    }
-    setTimeout(()=>{ document.getElementById('lock-error').textContent=''; document.getElementById('lock-attempts').textContent=''; }, 3000);
-  }
-}
-
-function togglePwdVisibility() {
-  const inp = document.getElementById('lock-pwd');
-  const icon = document.getElementById('eye-icon');
-  if (inp.type === 'password') { inp.type='text'; icon.className='fas fa-eye-slash'; }
-  else { inp.type='password'; icon.className='fas fa-eye'; }
-}
-
-function openChangePassword() {
-  closeSidebar();
-  openDrawer('Change Password', `
-    <div style="background:rgba(247,163,37,0.08);border:1px solid rgba(247,163,37,0.2);border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;color:var(--amber);margin-bottom:18px;">
-      <i class="fas fa-info-circle" style="margin-right:6px"></i>Password is stored in your browser. Anyone with access to this browser can change it.
-    </div>
-    <div class="fg"><label>Current password *</label><input type="password" id="cp-current" placeholder="Enter current password"></div>
-    <div class="fg"><label>New password *</label><input type="password" id="cp-new" placeholder="Min 6 characters"></div>
-    <div class="fg"><label>Confirm new password *</label><input type="password" id="cp-confirm" placeholder="Repeat new password"></div>
-    <div id="cp-error" style="font-size:12px;color:var(--red);min-height:18px;margin-top:4px"></div>
-  `, `<button class="btn" onclick="closeDrawer()">Cancel</button>
-      <button class="btn btn-accent" onclick="saveNewPassword()"><i class="fas fa-save"></i> Save password</button>`);
-  setTimeout(()=>document.getElementById('cp-current').focus(), 100);
-}
-
-function saveNewPassword() {
-  const current = document.getElementById('cp-current').value;
-  const newPwd  = document.getElementById('cp-new').value.trim();
-  const confirm = document.getElementById('cp-confirm').value.trim();
-  const errEl   = document.getElementById('cp-error');
-  if (current !== getPassword())    { errEl.textContent = 'Current password is incorrect.'; return; }
-  if (newPwd.length < 6)            { errEl.textContent = 'New password must be at least 6 characters.'; return; }
-  if (newPwd !== confirm)           { errEl.textContent = 'Passwords do not match.'; return; }
-  localStorage.setItem('wcrm_pwd', newPwd);
-  closeDrawer(); showToast('Password updated ✓');
 }
 
 // ── Utility ──────────────────────────────────────────────────────
